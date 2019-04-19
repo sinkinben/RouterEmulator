@@ -2,18 +2,18 @@ package priv.sin.test;
 
 public class Data implements java.io.Serializable{
 	String content;
-	int src,dst;
-	public Data(String content, int src, int dst) {
+	int order;
+	int srcpid;
+	public Data(String content, int order, int srcpid) {
 		super();
 		this.content = content;
-		this.src = src;
-		this.dst = dst;
+		this.order = order;
+		this.srcpid = srcpid;
 	}
 	
 	public String toString()
 	{
-		return (src+"->"+dst+": "+content);
+		return "["+order+" "+content+" from "+ srcpid +"]";
 	}
-	
 	
 }

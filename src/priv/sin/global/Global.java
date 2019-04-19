@@ -15,16 +15,22 @@ public class Global {
 	public static final int port = 18824;
 	public static int hostCounter = 0;
 	
+	public static final String dataContent = "161630230";
+	
+	public static final String logPath = "log/";
+	
 	private static final int NETID_MAX = 3;
 	private static final int NETID_MIN = 1;	
+	
+	
 	public static String getTime()
 	{
 		return dateFormat.format(new Date());
 	}
 	
-	public static void printLog(String msg) throws IOException
+	public static void printLog(String filename, String msg) throws IOException
 	{
-		FileWriter fileWriter = new FileWriter(new File("log"), true);
+		FileWriter fileWriter = new FileWriter(new File(Global.logPath + filename), true);
 		System.err.println("[" + getTime() + " " + msg + "]");
 		fileWriter.write("[" + getTime() + " " + msg + "]\n");
 		fileWriter.flush();

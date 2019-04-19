@@ -3,7 +3,6 @@ package priv.sin.test;
 
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 
 public class MyServer {
 	public static int counter = 0;
-	public static ArrayList<Socket> socketsList = new ArrayList<>();
+	public static ArrayList<RouterThread> routerThreads = new ArrayList<>();
 	public static void main(String[] args) throws IOException 
 	{
 		ServerSocket serverSocket = new ServerSocket();
@@ -26,57 +25,61 @@ public class MyServer {
 		while(true)
 		{
 			Socket socket = serverSocket.accept();
-			SocketThread socketHandler = new SocketThread(socket, counter++, socketsList);
-			new Thread(socketHandler).start();
+			RouterThread thread = new RouterThread(socket, counter++, routerThreads);
+			routerThreads.add(thread);
+			new Thread(thread).start();
 		}
 	}
 }
 
-class SocketThread implements Runnable{
+class RouterThread implements Runnable{
 	public static final String datePattern = "yyyy-MM-dd HH:mm:ss SSS";
 	public static final SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
 	private Socket socket;
 	private int order;
-	private ArrayList<Socket> socketsList;
-	
-	public SocketThread(Socket socket, int order, ArrayList<Socket> socketsList) {
+	private ArrayList<RouterThread> routerThreads;
+	private ObjectInputStream inputStream;
+	private ObjectOutputStream outputStream; 
+	public RouterThread(Socket socket, int order, ArrayList<RouterThread> routerThreads) throws IOException 
+	{
 		// TODO Auto-generated constructor stub
 		this.socket = socket;
 		this.order = order;
-		this.socketsList = socketsList;
+		this.routerThreads = routerThreads;
+		outputStream = new ObjectOutputStream(socket.getOutputStream());
+		inputStream = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 	}
-	private void send(Data data) throws IOException
+	public void send(Data data) throws IOException
 	{
-		for (Socket s : socketsList)
+		outputStream.writeObject(data);
+		outputStream.flush();
+	}
+	
+	public void boardcast(Data data) throws IOException
+	{
+		for (RouterThread r : routerThreads)
 		{
-			if (s == socket)
-				continue;
-			ObjectOutputStream outputStream = new ObjectOutputStream(new BufferedOutputStream(s.getOutputStream()));
-			data.content+="after server";
-			outputStream.writeObject(data);
-			outputStream.flush();
-			outputStream.close();
+			if (r!=this)
+			{
+				r.send(data);
+			}
 		}
 	}
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		System.out.println("Client " + socket.getPort() + "连接成功！");
-		try {
-			ObjectInputStream  inputStream  = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-			
-			Object object = inputStream.readObject();
-			Data data = (Data)object;
-			System.out.println("Server " + order + " get from" + socket.getPort() +" ["+ data.toString() + "]");
-			send(data);
-		} catch (Exception e) {
-			e.printStackTrace();
+		while(true)
+		{
+			try {
+				Object object = inputStream.readObject();
+				Data data = (Data)object;
+				System.out.println("Server " + order + " get from " + socket.getPort() + data.toString() );
+				boardcast(data);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
-	}
-	
-	public int getSocket()
-	{
-		return socket.getPort();
 	}
 }

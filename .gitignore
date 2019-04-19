@@ -1,5 +1,2 @@
-.settings/*
+.git/*
 bin/*
-.classpath
-.project
-log

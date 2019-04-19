@@ -1,4 +1,4 @@
-package priv.sin.entity;
+package priv.sin.host;
 
 public class HostAddress {
 	private int netid;
