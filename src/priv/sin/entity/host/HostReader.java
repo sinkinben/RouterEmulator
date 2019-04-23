@@ -1,9 +1,9 @@
-package priv.sin.host;
+package priv.sin.entity.host;
 
 import java.io.ObjectInputStream;
 
-import priv.sin.data.DataPackage;
-import priv.sin.global.Global;
+import priv.sin.entity.data.DataPackage;
+import priv.sin.entity.global.Global;
 
 public class HostReader implements Runnable{
 

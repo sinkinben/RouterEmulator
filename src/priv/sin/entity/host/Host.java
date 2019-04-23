@@ -1,4 +1,4 @@
-package priv.sin.host;
+package priv.sin.entity.host;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -8,9 +8,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-import priv.sin.data.Data;
-import priv.sin.global.FileHelper;
-import priv.sin.global.Global;
+import priv.sin.entity.data.Data;
+import priv.sin.entity.global.FileHelper;
+import priv.sin.entity.global.Global;
 
 /*
  * Client

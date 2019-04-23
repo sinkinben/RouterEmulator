@@ -1,4 +1,4 @@
-package priv.sin.data;
+package priv.sin.entity.data;
 
 public class MsgContent implements java.io.Serializable{
 	private int order;

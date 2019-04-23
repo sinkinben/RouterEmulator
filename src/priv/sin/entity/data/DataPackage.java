@@ -1,4 +1,4 @@
-package priv.sin.data;
+package priv.sin.entity.data;
 
 public class DataPackage implements java.io.Serializable{
 	private static final long serialVersionUID = 2L;

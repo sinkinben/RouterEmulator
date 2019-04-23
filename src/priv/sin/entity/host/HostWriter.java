@@ -1,10 +1,10 @@
-package priv.sin.host;
+package priv.sin.entity.host;
 
 import java.io.ObjectOutputStream;
 import java.util.concurrent.TimeUnit;
 
-import priv.sin.data.DataPackage;
-import priv.sin.global.Global;
+import priv.sin.entity.data.DataPackage;
+import priv.sin.entity.global.Global;
 
 public class HostWriter implements Runnable{
 	private ObjectOutputStream outputStream;

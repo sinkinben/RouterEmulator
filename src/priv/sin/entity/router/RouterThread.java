@@ -1,4 +1,4 @@
-package priv.sin.router;
+package priv.sin.entity.router;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -6,8 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import priv.sin.data.DataPackage;
-import priv.sin.global.Global;
+import priv.sin.entity.data.DataPackage;
+import priv.sin.entity.global.Global;
 
 public class RouterThread implements Runnable{
 	private int tid;

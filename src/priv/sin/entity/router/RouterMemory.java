@@ -1,7 +1,7 @@
-package priv.sin.router;
+package priv.sin.entity.router;
 
-import priv.sin.data.Data;
-import priv.sin.data.DataPackage;
+import priv.sin.entity.data.Data;
+import priv.sin.entity.data.DataPackage;
 
 public class RouterMemory {
 	private int in = 0;

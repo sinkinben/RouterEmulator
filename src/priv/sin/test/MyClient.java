@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
 
-import priv.sin.global.Global;
+import priv.sin.entity.global.Global;
 
 public class MyClient {
 	public static final String datePattern = "yyyy-MM-dd HH:mm:ss SSS";

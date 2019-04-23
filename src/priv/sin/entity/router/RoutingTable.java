@@ -1,6 +1,6 @@
-package priv.sin.router;
+package priv.sin.entity.router;
 
-import priv.sin.global.Global;
+import priv.sin.entity.global.Global;
 
 public class RoutingTable {
 	private static final int TABLE_SIZE = 128;

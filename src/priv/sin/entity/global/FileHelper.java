@@ -1,4 +1,4 @@
-package priv.sin.global;
+package priv.sin.entity.global;
 
 import java.io.BufferedReader;
 import java.io.File;

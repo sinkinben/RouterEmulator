@@ -1,27 +1,28 @@
-package priv.sin.gui;
+package priv.sin.gui.host;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import priv.sin.global.Global;
+import priv.sin.entity.global.Global;
 
 /*
  * left is icon
  * right is info of host
  */
-public class HostTopJPanel extends JPanel{
+public class HostInfoJPanel extends JPanel{
 	private JPanel rightJPanel;
 	
-	public HostTopJPanel(int pid, int netid, int ip)
+	public HostInfoJPanel(int pid, int netid, int ip)
 	{
-		setLayout(new BorderLayout());
-		add(new JLabel(new ImageIcon(GuiGlobal.hostIcon)), BorderLayout.WEST);
+		setBorder(BorderFactory.createTitledBorder("主机信息"));
+		setLayout(new GridLayout(1, 3));
+		add(new JLabel(new ImageIcon(GuiGlobal.hostIcon)));
 		initRightJPanel(pid, netid, ip);
-		add(rightJPanel, BorderLayout.CENTER);
+		add(rightJPanel);
 	}
 	
 	private void initRightJPanel(int pid, int netid, int ip)

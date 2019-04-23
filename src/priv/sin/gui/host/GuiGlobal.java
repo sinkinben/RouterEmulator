@@ -1,4 +1,4 @@
-package priv.sin.gui;
+package priv.sin.gui.host;
 
 import java.awt.Font;
 import java.util.Enumeration;

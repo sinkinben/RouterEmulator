@@ -1,6 +1,6 @@
-package priv.sin.data;
+package priv.sin.entity.data;
 
-import priv.sin.global.Global;
+import priv.sin.entity.global.Global;
 
 public class Data implements java.io.Serializable{
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package priv.sin.router;
+package priv.sin.entity.router;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -7,8 +7,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import priv.sin.global.FileHelper;
-import priv.sin.global.Global;
+import priv.sin.entity.global.FileHelper;
+import priv.sin.entity.global.Global;
 /*
  * Router Server
  */
