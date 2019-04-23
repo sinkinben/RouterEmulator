@@ -3,7 +3,6 @@ package priv.sin.gui.router;
 import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 public class RouterJFrame extends JFrame{
@@ -38,9 +37,9 @@ public class RouterJFrame extends JFrame{
 		upSplitPane.setTopComponent(routerInfoJPanel);
 		upSplitPane.setBottomComponent(routerThreadsTable);
 		
-		downSplitPane.setDividerLocation(upSplitPane.getDividerLocation());
+		//downSplitPane.setDividerLocation(upSplitPane.getDividerLocation());
 		downSplitPane.setTopComponent(routerMemoryJPanel);
-		downSplitPane.setBottomComponent(new JPanel());
+		//downSplitPane.setBottomComponent(new JPanel());
 		
 		
 		setContentPane(mainSplitPane);
