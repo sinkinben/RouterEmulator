@@ -6,25 +6,23 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import junit.framework.Assert;
-import priv.sin.data.Data;
 import priv.sin.data.DataPackage;
 import priv.sin.global.Global;
 
 public class RouterThread implements Runnable{
 	private int tid;
+	private int connectIP;
 	private Socket socket;
 	private ObjectInputStream inputStream;
 	private ObjectOutputStream outputStream;
-	private RouterMemory memory;
 	
-	public RouterThread(int tid, Socket socket) throws IOException 
+	public RouterThread(int tid, int connectIP, Socket socket) throws IOException 
 	{
 		this.tid = tid;
+		this.connectIP = connectIP;
 		this.socket = socket;
 		outputStream = new ObjectOutputStream(socket.getOutputStream());
 		inputStream = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-		memory = new RouterMemory();
 	}
 	
 	public void send(DataPackage dataPackage) throws IOException
@@ -33,7 +31,7 @@ public class RouterThread implements Runnable{
 		outputStream.flush();
 	}
 	
-	public void boardcast(DataPackage dataPackage) throws IOException
+	public void allHostsBoardcast(DataPackage dataPackage) throws IOException
 	{
 		for (RouterThread r: Router.routerThreads)
 		{
@@ -44,11 +42,29 @@ public class RouterThread implements Runnable{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
-	private void checkRoutingTable(Data message)
+	private void netBoardcast(int dstip, DataPackage dataPackage) throws IOException 
 	{
-		System.err.println("Check Routing Table Not Finish.");
-		Assert.fail("Check Routing Table Not Finish.");
+		int netid = dstip & Global.ipMask;
+		for (RouterThread r: Router.routerThreads)
+		{
+			if ((r.connectIP & Global.ipMask) == netid)
+				r.send(dataPackage);
+		}
+	}
+	
+	private void send2host(int hostip, DataPackage dataPackage) throws IOException
+	{
+		for (RouterThread r: Router.routerThreads)
+		{
+			if (r.connectIP == hostip)
+				r.send(dataPackage);
+		}
+	}
+	
+	private void dispatchMsg(DataPackage dataPackage) throws IOException
+	{
+		int dstip = dataPackage.datas[0].getDstIP();
+		send2host(dstip, dataPackage);
 	}
 	
 	@Override
@@ -66,10 +82,9 @@ public class RouterThread implements Runnable{
 			try
 			{
 				DataPackage dataPackage =  (DataPackage)inputStream.readObject();
-				Global.printLog("Routerlog","RouterThread " + tid + " get msg: " + dataPackage.toString());
-				memory.copyDatas(dataPackage);
-				//checkRoutingTable(message);
-				boardcast(dataPackage);
+				Global.printLog("Routerlog","RouterThread " + tid + " get msg: " + dataPackage.datas[0].toString());
+				dispatchMsg(dataPackage);
+				
 			}
 			catch (Exception e)
 			{

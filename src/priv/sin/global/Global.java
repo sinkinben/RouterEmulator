@@ -22,6 +22,14 @@ public class Global {
 	private static final int NETID_MAX = 3;
 	private static final int NETID_MIN = 1;	
 	
+	public static final int nuaaMaxIpVal = Global.string2ipv4("202.119.64.0");
+	public static final int nuaaMinIpVal = Global.string2ipv4("202.119.79.255");
+	public static final int ipMask = 0xFFFFFF00;
+	public static int ipPoolIndex = 0;
+	public static final String[] ipPool = {"202.119.64.0", "202.119.64.1", 
+										   "202.119.65.0", "202.119.65.1",
+										   "202.119.66.0", "202.119.66.1",
+										   "202.119.67.0", "202.119.67.1"};
 	
 	public static String getTime()
 	{
@@ -44,13 +52,45 @@ public class Global {
 		return Integer.valueOf(pid);
 	}
 	
-	public static int getRandom(int min, int max)
+	public static int getRandom(int min, int max)	//[min, max]
 	{
 		return (int)(min + Math.random() * (max - min + 1));
 	}
+	
 	public static int getNetid()
 	{
 		return getRandom(NETID_MIN, NETID_MAX);
 	}
+	
+	public static String ipv4String(int ipv4)
+	{
+		String string="";
+		string += ((ipv4 >> 24) & 0xff) + ".";
+		string += ((ipv4 >> 16) & 0xff) + ".";
+		string += ((ipv4 >> 8) & 0xff) + ".";
+		string += (ipv4 & 0xff);
+		return string;
+	}
+	
+	public static int string2ipv4(String ipString)
+	{
+		String[] strings = ipString.split("\\.");
+		int val = 0;
+		val+=Integer.parseInt(strings[0])<<24;
+		val+=Integer.parseInt(strings[1])<<16;
+		val+=Integer.parseInt(strings[2])<<8;
+		val+=Integer.parseInt(strings[3]);
+		return val;
+	}
+	
+	public static int allocateIP()
+	{
+		ipPoolIndex++;
+		return string2ipv4(ipPool[ipPoolIndex-1]);
+	}
+	
+	
+	
+	
 	
 }

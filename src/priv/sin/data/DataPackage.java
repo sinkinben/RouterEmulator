@@ -5,16 +5,11 @@ public class DataPackage implements java.io.Serializable{
 	public static final int PACKAGE_SIZE = 10;
 	public Data[] datas = new Data[PACKAGE_SIZE];
 	
-	public DataPackage(int order, int sourcePid, int sourceSocketPort, String content)
+	public DataPackage(int srcIP, int dstIP, int order, int srcPid, int srcSocketPort, String msg)
 	{
 		for (int i = 0; i < PACKAGE_SIZE; i++)
 		{
-			datas[i] = new Data(order++, sourcePid, sourceSocketPort, content);
+			datas[i] = new Data(srcIP, dstIP, new MsgContent(order, srcPid, srcSocketPort, msg));
 		}
-	}
-	
-	public String toString()
-	{
-		return "{ DataPackage: " + datas[0].toString() + ", size = " + PACKAGE_SIZE + " }";
 	}
 }

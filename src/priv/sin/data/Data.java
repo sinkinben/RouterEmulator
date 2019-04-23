@@ -1,29 +1,40 @@
 package priv.sin.data;
 
+import priv.sin.global.Global;
+
 public class Data implements java.io.Serializable{
 	private static final long serialVersionUID = 1L;
-	private int order;
-	private int sourcePid;
-	private int sourceSocketPort;
-	private String content;
-	
-
-	public Data(int order, int sourcePid, int sourceSocketPort, String content) {
+	private int srcIP;
+	private int dstIP;
+	private MsgContent msgContent;
+	public Data(int srcIP, int dstIP, MsgContent msgContent) {
 		super();
-		this.order = order;
-		this.sourcePid = sourcePid;
-		this.sourceSocketPort = sourceSocketPort;
-		this.content = content;
+		this.srcIP = srcIP;
+		this.dstIP = dstIP;
+		this.msgContent = msgContent;
 	}
-	
-	public Data(Data data)
-	{
-		this(data.order, data.sourcePid, data.sourceSocketPort, data.content);
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	public int getSrcIP() {
+		return srcIP;
+	}
+	public int getDstIP() {
+		return dstIP;
+	}
+	public MsgContent getMsgContent() {
+		return msgContent;
 	}
 	
 	public String toString()
 	{
-		return "[ order=" + order + ": srcPid=" + sourcePid + ", srcSktPrt=" + sourceSocketPort + ", content='" + content + "' ]";
+		String src = Global.ipv4String(srcIP);
+		String dst = Global.ipv4String(dstIP);
+		return "src=" + src + ", dst=" + dst + ", " + msgContent.toString();
 	}
+	
+	
+	
+	
 	
 }

@@ -13,7 +13,7 @@ public class RouterMemory {
 	{
 		for (int i = 0 ; i < dataPackage.PACKAGE_SIZE; i++)
 		{
-			memory[in] = new Data(dataPackage.datas[i]);
+			memory[in] = new Data(dataPackage.datas[i].getSrcIP(), dataPackage.datas[i].getDstIP(), dataPackage.datas[i].getMsgContent());
 			in = (in + 1) % MEMORY_SIZE;
 		}
 	}

@@ -26,7 +26,7 @@ public class HostReader implements Runnable{
 			{
 				System.out.println(Host.pid + " Reader running.");
 				DataPackage dataPackage = (DataPackage)inputStream.readObject();
-				Global.printLog(String.valueOf(Host.pid), "Host pid="+Host.pid + " get package "+dataPackage.toString());
+				Global.printLog(Host.ipString, "Host pid="+Host.pid + " get  10 items "+ dataPackage.datas[0].toString());
 			}
 			catch (Exception e)
 			{
