@@ -5,6 +5,11 @@ import java.awt.HeadlessException;
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 
+import priv.sin.entity.data.Data;
+import priv.sin.entity.data.DataPackage;
+import priv.sin.entity.global.Global;
+
+
 public class HostJFrame extends JFrame{
 	private int hostPid;
 	private int hostNetid;
@@ -17,7 +22,7 @@ public class HostJFrame extends JFrame{
 	private HostInfoJPanel hostInfoJPanel;
 	private HostTableJPanel hostMsgSendJPanel;
 	private HostTableJPanel hostMsgRecvJPanel;
-	private HostSendJPanel hostSendJPanel;
+	private HostSendActionJPanel hostSendActionJPanel;
 	public HostJFrame(int hostPid, int hostNetid, int hostip) throws HeadlessException {
 		super();
 		this.hostPid = hostPid;
@@ -25,9 +30,9 @@ public class HostJFrame extends JFrame{
 		this.hostip = hostip;
 		
 		hostInfoJPanel = new HostInfoJPanel(hostPid, hostNetid, hostip);
-		hostMsgRecvJPanel = new HostTableJPanel("发送报文信息");
-		hostMsgSendJPanel = new HostTableJPanel("接收报文信息");
-		hostSendJPanel = new HostSendJPanel();
+		hostMsgRecvJPanel = new HostTableJPanel("接收报文信息");
+		hostMsgSendJPanel = new HostTableJPanel("发送报文信息");
+		hostSendActionJPanel = new HostSendActionJPanel();
 		
 		setTitle("Host " + hostPid);
 		setVisible(true);
@@ -39,7 +44,7 @@ public class HostJFrame extends JFrame{
 		
 		upSplitPane.setDividerLocation(getHeight()/4);
 		upSplitPane.setTopComponent(hostInfoJPanel);
-		upSplitPane.setBottomComponent(hostSendJPanel);
+		upSplitPane.setBottomComponent(hostSendActionJPanel);
 		
 		downSplitPane.setTopComponent(hostMsgSendJPanel);
 		downSplitPane.setBottomComponent(hostMsgRecvJPanel);
@@ -49,6 +54,33 @@ public class HostJFrame extends JFrame{
 		
 		setContentPane(mainSplitPane);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+	
+	public String getActionIp()
+	{
+		return hostSendActionJPanel.getDstIpStr();
+	}
+	
+	public String getActionMsg()
+	{
+		return hostSendActionJPanel.getMsgStr();
+	}
+	
+	public void addMsgSendItem(Data data)
+	{
+		hostMsgSendJPanel.addItem(Global.getTime(), data.getSrcIPString(), data.getDstIPString(), 
+				                  data.getSendOrder(), hostPid, data.getMsgContent().getMsg());
+	}
+	
+	public void addMsgSendPackage(DataPackage dataPackage)
+	{
+		System.out.println("addMsgSendPackage");
+		int size = dataPackage.getPackageSize();
+		for (int i=0;i<size;i++)
+		{
+			addMsgSendItem(dataPackage.datas[i]);
+		}
+		hostMsgSendJPanel.updateUI();
 	}
 	
 }

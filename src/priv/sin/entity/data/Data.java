@@ -22,6 +22,14 @@ public class Data implements java.io.Serializable{
 	public int getDstIP() {
 		return dstIP;
 	}
+	public String getSrcIPString()
+	{
+		return Global.ipv4String(srcIP);
+	}
+	public String getDstIPString()
+	{
+		return Global.ipv4String(dstIP);
+	}
 	public MsgContent getMsgContent() {
 		return msgContent;
 	}
@@ -31,6 +39,11 @@ public class Data implements java.io.Serializable{
 		String src = Global.ipv4String(srcIP);
 		String dst = Global.ipv4String(dstIP);
 		return "src=" + src + ", dst=" + dst + ", " + msgContent.toString();
+	}
+	
+	public int getSendOrder()
+	{
+		return msgContent.getOrder();
 	}
 	
 	

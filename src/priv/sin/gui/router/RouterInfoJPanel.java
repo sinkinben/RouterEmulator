@@ -11,6 +11,7 @@ import priv.sin.gui.host.GuiGlobal;
 
 public class RouterInfoJPanel extends JPanel{
 	private JPanel rightPanel;
+	private JLabel label1, label2, label3;
 	public RouterInfoJPanel(int routerpid, int socketport)
 	{
 		initRightPanel(routerpid, socketport);
@@ -24,9 +25,9 @@ public class RouterInfoJPanel extends JPanel{
 	private void initRightPanel(int pid, int port) {
 		// TODO Auto-generated method stub
 		rightPanel = new JPanel(new GridLayout(3,1));
-		JLabel label = new JLabel("    ，Router PID: "+ pid);
-		JLabel label2= new JLabel("    ，Socket Port: " + port);
-		rightPanel.add(label);
+		label1 = new JLabel("    ，Router PID: " + pid);
+		label2 = new JLabel("    ，Router port: " + port);
+		rightPanel.add(label1);
 		rightPanel.add(label2);
 	}
 }

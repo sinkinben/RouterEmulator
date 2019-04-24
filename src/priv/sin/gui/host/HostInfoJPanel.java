@@ -29,7 +29,7 @@ public class HostInfoJPanel extends JPanel{
 	{
 		rightJPanel = new JPanel(new GridLayout(3, 1));
 		JLabel pidLabel = new JLabel("    ，Host pid: " + pid);
-		JLabel netLabel = new JLabel("    ，Host net-id: " + netid);
+		JLabel netLabel = new JLabel("    ，Host net-id: " + Global.ipv4String(netid));
 		JLabel ipLabel  = new JLabel("    ，Host ip: " + Global.ipv4String(ip));
 		rightJPanel.add(pidLabel);
 		rightJPanel.add(netLabel);

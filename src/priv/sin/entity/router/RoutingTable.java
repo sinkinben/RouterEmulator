@@ -8,6 +8,10 @@ public class RoutingTable {
 	private int[] netids = new int[TABLE_SIZE];
 	private int[] nextAddrs = new int[TABLE_SIZE];
 	
+	public RoutingTable()
+	{
+		initRoutingTable();
+	}
 	public void addItem(int netid, int nextAddr)
 	{
 		netids[NR_TABLE] = netid;
@@ -23,5 +27,27 @@ public class RoutingTable {
 				return nextAddrs[i];
 		}
 		return 0;
+	}
+
+	public int getNR_TABLE() {
+		return NR_TABLE;
+	}
+
+	public int[] getNetids() {
+		return netids;
+	}
+
+	public int[] getNextAddrs() {
+		return nextAddrs;
+	}
+	
+	private void initRoutingTable()
+	{
+		int ipVal;
+		for (int i = 0; i < Global.ipPool.length; i++)
+		{
+			ipVal = Global.string2ipv4(Global.ipPool[i]);
+			addItem(ipVal, ipVal & Global.ipMask);
+		}
 	}
 }

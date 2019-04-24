@@ -11,7 +11,7 @@ public class Global {
 	public static final String datePattern = "yyyy-MM-dd HH:mm:ss";
 	public static final SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
 	
-	public static final String hostName = "localhost";
+	public static final String hostName = "127.0.0.1";
 	public static final int port = 18824;
 	public static int hostCounter = 0;
 	

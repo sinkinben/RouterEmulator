@@ -5,6 +5,9 @@ import java.awt.HeadlessException;
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 
+import priv.sin.entity.global.Global;
+import priv.sin.entity.router.RoutingTable;
+
 public class RouterJFrame extends JFrame{
 	private int routerPID;
 	private int socketPort;
@@ -17,19 +20,21 @@ public class RouterJFrame extends JFrame{
 	private RouterThreadsJPanel routerThreadsTable;
 	private RouterTableJPanel routerTableJPanel;
 	private RouterMemoryJPanel routerMemoryJPanel;
-	public RouterJFrame(int routerPID, int socketPort) throws HeadlessException {
+	public RouterJFrame(int routerPID, int socketPort, RoutingTable routingTable) throws HeadlessException {
 		super();
 		this.routerPID = routerPID;
 		this.socketPort = socketPort;
+		
 		routerInfoJPanel = new RouterInfoJPanel(routerPID, socketPort);
 		routerThreadsTable = new RouterThreadsJPanel();
 		routerTableJPanel = new RouterTableJPanel();
 		routerMemoryJPanel = new RouterMemoryJPanel();
+		
 		setTitle("Router " + routerPID);
 		setVisible(true);
 		setSize(600, 600);
 		
-		
+		initRouterTable(routingTable);
 		
 		mainSplitPane.setDividerLocation(getHeight()/2);
 		mainSplitPane.setTopComponent(upSplitPane);
@@ -48,6 +53,19 @@ public class RouterJFrame extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 	}
+	
+	public void addRouterThreadItem(int tid, int ip, int port)
+	{
+		routerThreadsTable.addItem(tid, Global.ipv4String(ip), port);
+	}
+	
+	
+	public void initRouterTable(RoutingTable routingTable)
+	{
+		routerTableJPanel.initTable(routingTable);
+	}
+	
+
 	
 	
 

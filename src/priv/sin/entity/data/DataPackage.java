@@ -9,7 +9,12 @@ public class DataPackage implements java.io.Serializable{
 	{
 		for (int i = 0; i < PACKAGE_SIZE; i++)
 		{
-			datas[i] = new Data(srcIP, dstIP, new MsgContent(order, srcPid, srcSocketPort, msg));
+			datas[i] = new Data(srcIP, dstIP, new MsgContent(order++, srcPid, srcSocketPort, msg));
 		}
+	}
+	
+	public int getPackageSize()
+	{
+		return PACKAGE_SIZE;
 	}
 }

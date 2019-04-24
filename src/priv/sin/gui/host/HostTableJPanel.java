@@ -13,10 +13,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 public class HostTableJPanel extends JPanel{
 	private static final int MAX_ITEMS = 1024;
-	private String[] colStrings = {"表格序号", "源地址", "目的地址", "发送序号", "源进程PID", "内容", "状态"};
+	private String[] colStrings = {"时间", "源地址", "目的地址", "发送序号", "源进程PID", "内容"};
 	private String[][] rowDatas = new String[MAX_ITEMS][colStrings.length];
 	private int NR_ITEMS = 0;
 	private JTable table;
+	private JScrollPane jScrollPane;
 	public HostTableJPanel(String borderTitle)
 	{
 		setFont(GuiGlobal.fontEN);
@@ -29,25 +30,26 @@ public class HostTableJPanel extends JPanel{
 		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		
 		
-		JScrollPane jScrollPane = new JScrollPane(table);
+		jScrollPane = new JScrollPane(table);
 		jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		add(jScrollPane);
-		addItem(1, "1", "2", 1, 123, "sssss");
 		setOneRowBackgroundColor(table, 0, Color.RED);
 	}
 	
-	public void addItem(int order, String srcIP, String dstIP, int sendOrder, int srcPID, String msg)
+	public void addItem(String time, String srcIP, String dstIP, int sendOrder, int srcPID, String msg)
 	{
-		rowDatas[NR_ITEMS][0] = order+"";
+		rowDatas[NR_ITEMS][0] = time;
 		rowDatas[NR_ITEMS][1] = srcIP;
 		rowDatas[NR_ITEMS][2] = dstIP;
 		rowDatas[NR_ITEMS][3] = sendOrder+"";
-		rowDatas[NR_ITEMS][4] = srcIP+"";
+		rowDatas[NR_ITEMS][4] = srcPID+"";
 		rowDatas[NR_ITEMS][5] = msg;
 		NR_ITEMS++;
-		table.repaint();
+		table.updateUI();
+		jScrollPane.updateUI();
+		
 	}
 	public static void setOneRowBackgroundColor(JTable table, int rowIndex, Color color) 
 	{		

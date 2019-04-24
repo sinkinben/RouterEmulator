@@ -12,11 +12,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class HostSendJPanel extends JPanel{
+import priv.sin.entity.host.HostWriter;
+
+public class HostSendActionJPanel extends JPanel{
 	private JTextField dstIpJtf = new JTextField("127.0.0.1");
 	private JTextField msgJtf = new JTextField("161630230");
 	private JButton confirmJbt = new JButton("确认发送");
-	public HostSendJPanel()
+	private String dstIpStr = null;
+	private String msgStr = null;
+	public HostSendActionJPanel()
 	{
 		initListener();
 		setBorder(BorderFactory.createTitledBorder("发送信息"));
@@ -45,9 +49,26 @@ public class HostSendJPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Confirm Button Clicked");
+				dstIpStr = dstIpJtf.getText();
+				msgStr = msgJtf.getText();
+				HostWriter.setLock(false);
 			}
 		});
 	}
+
+	public String getDstIpStr() {
+		return dstIpStr;
+	}
+
+	public String getMsgStr() {
+		return msgStr;
+	}
+
+
+
+
+
+	
 	
 	
 }

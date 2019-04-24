@@ -13,7 +13,7 @@ import priv.sin.gui.host.GuiGlobal;
 
 public class RouterThreadsJPanel extends JPanel{
 	private static final int MAX_ITEMS = 20;
-	private String[] colStrings = {"线程TID", "主机PID", "Socket端口"};
+	private String[] colStrings = {"线程TID", "主机IP", "Socket端口"};
 	private String[][] rowDatas = new String[MAX_ITEMS][colStrings.length];
 	private int NR_ITEMS = 0;
 	private JTable table;
@@ -36,10 +36,10 @@ public class RouterThreadsJPanel extends JPanel{
 		add(jScrollPane, BorderLayout.CENTER);
 	}
 	
-	public void addItem(int tid, int pid, int port)
+	public void addItem(int tid, String ipString, int port)
 	{
 		rowDatas[NR_ITEMS][0] = tid+"";
-		rowDatas[NR_ITEMS][1] = pid+"";
+		rowDatas[NR_ITEMS][1] = ipString;
 		rowDatas[NR_ITEMS][2] = port+"";
 		NR_ITEMS++;
 		table.repaint();

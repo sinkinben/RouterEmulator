@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import priv.sin.entity.data.Data;
 import priv.sin.entity.global.FileHelper;
 import priv.sin.entity.global.Global;
+import priv.sin.gui.host.HostJFrame;
 
 /*
  * Client
@@ -22,14 +23,16 @@ public class Host {
 	public static int hostip = 0;
 	public static String ipString = "";
 	
-	public static int counter = 0;
+	public static HostJFrame hostJFrame;
+	
 	public static void main(String[] args)
 	throws UnknownHostException, IOException, InterruptedException 
 	{
-		//HostJFrame hostWindow = new HostJFrame(Host.pid, Host.netid, Host.hostip);
+		
 		Host.hostip = FileHelper.recvIP();
 		Host.ipString = Global.ipv4String(hostip);
-		System.out.println(Host.ipString);
+		
+		
 		Socket socket = new Socket(Global.hostName, Global.port);
 		ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 		ObjectInputStream inputStream = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
@@ -37,8 +40,11 @@ public class Host {
 		socketPort = socket.getPort();
 		Host.printAttr();
 		
+		hostJFrame = new HostJFrame(pid, hostip & Global.ipMask, hostip);
+		
 		new Thread(new HostWriter(outputStream, socket.getPort())).start();
 		new Thread(new HostReader(inputStream, socket.getPort())).start();
+		
 		
 	}
 	
