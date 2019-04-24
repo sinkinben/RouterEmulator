@@ -11,37 +11,37 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import priv.sin.gui.host.GuiGlobal;
 
-public class RouterThreadsTable extends JPanel{
+public class RouterTableJPanel extends JPanel {
 	private static final int MAX_ITEMS = 20;
-	private String[] colStrings = {"线程TID", "主机PID", "Socket端口"};
-	private String[][] rowDatas = new String[MAX_ITEMS][colStrings.length];
-	private int NR_ITEMS = 0;
+	private String[] colNames = {"目的网络/IP地址", "下一跳"};
+	private String[][] rowDatas = new String[MAX_ITEMS][colNames.length];
+	private int NR_ITEM = 0;
 	private JTable table;
 	
-	public RouterThreadsTable()
+	public RouterTableJPanel()
 	{
-		setFont(GuiGlobal.fontEN);
-		setBorder(BorderFactory.createTitledBorder("当前连接主机"));
 		setLayout(new BorderLayout());
-		table = new JTable(rowDatas, colStrings);
+		setFont(GuiGlobal.fontEN);
+		setBorder(BorderFactory.createTitledBorder("路由表信息"));
+		
+		table = new JTable(rowDatas, colNames);
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();// 设置table内容居中
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		table.setDefaultRenderer(Object.class,tcr);
 		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JScrollPane jScrollPane = new JScrollPane(table);
-		jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		
-		add(jScrollPane);
+		add(jScrollPane, BorderLayout.CENTER);
 	}
 	
-	public void addItem(int tid, int pid, int port)
+	public void addItem(String target, String next)
 	{
-		rowDatas[NR_ITEMS][0] = tid+"";
-		rowDatas[NR_ITEMS][1] = pid+"";
-		rowDatas[NR_ITEMS][2] = port+"";
-		NR_ITEMS++;
+		rowDatas[NR_ITEM][0] = target;
+		rowDatas[NR_ITEM][1] = next;
+		NR_ITEM++;
 		table.repaint();
 	}
 }

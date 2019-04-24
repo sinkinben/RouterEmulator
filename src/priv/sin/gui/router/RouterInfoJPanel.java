@@ -24,7 +24,7 @@ public class RouterInfoJPanel extends JPanel{
 	private void initRightPanel(int pid, int port) {
 		// TODO Auto-generated method stub
 		rightPanel = new JPanel(new GridLayout(3,1));
-		JLabel label = new JLabel("    ¡¤Router pid: "+ pid);
+		JLabel label = new JLabel("    ¡¤Router PID: "+ pid);
 		JLabel label2= new JLabel("    ¡¤Socket Port: " + port);
 		rightPanel.add(label);
 		rightPanel.add(label2);
