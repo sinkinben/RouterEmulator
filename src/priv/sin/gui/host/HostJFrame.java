@@ -1,12 +1,16 @@
 package priv.sin.gui.host;
 
 import java.awt.HeadlessException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 
 import priv.sin.entity.data.Data;
 import priv.sin.entity.data.DataPackage;
+import priv.sin.entity.global.FileHelper;
 import priv.sin.entity.global.Global;
 
 
@@ -36,13 +40,13 @@ public class HostJFrame extends JFrame{
 		
 		setTitle("Host " + hostPid);
 		setVisible(true);
-		setSize(500, 500);
+		setSize(600, 800);
 		
-		mainSplitPane.setDividerLocation(getHeight()/2);
+		mainSplitPane.setDividerLocation(getHeight()/3);
 		mainSplitPane.setTopComponent(upSplitPane);
 		mainSplitPane.setBottomComponent(downSplitPane);
 		
-		upSplitPane.setDividerLocation(getHeight()/4);
+		upSplitPane.setDividerLocation(mainSplitPane.getDividerLocation()/2);
 		upSplitPane.setTopComponent(hostInfoJPanel);
 		upSplitPane.setBottomComponent(hostSendActionJPanel);
 		
@@ -65,14 +69,43 @@ public class HostJFrame extends JFrame{
 	{
 		return hostSendActionJPanel.getMsgStr();
 	}
-	
-	public void addMsgSendItem(Data data)
+	private int checkItemStatus(Data data, boolean isRecvPanel) throws IOException
 	{
+		int status = 0;
+		int dstVal = data.getDstIP();
+		String dstString = data.getDstIPString();
+		
+		BufferedReader reader = new BufferedReader(new FileReader(FileHelper.currentIP));
+		String ipString;
+		while ((ipString = reader.readLine()) != null)
+		{
+			if (ipString.equals(dstString))
+			{
+				if (isRecvPanel)
+				{
+					status = 1;
+					if (hostip == dstVal)
+						status = 2;
+				}
+				else
+				{
+					status = 2;
+				}
+				break;
+			}
+		}
+		reader.close();
+		return status;
+	}
+
+	private void addMsgSendItem(Data data) throws IOException
+	{
+		int status = checkItemStatus(data, false);
 		hostMsgSendJPanel.addItem(Global.getTime(), data.getSrcIPString(), data.getDstIPString(), 
-				                  data.getSendOrder(), hostPid, data.getMsgContent().getMsg());
+				                  data.getSendOrder(), hostPid, data.getMsgContent().getMsg(), status);
 	}
 	
-	public void addMsgSendPackage(DataPackage dataPackage)
+	public void addMsgSendPackage(DataPackage dataPackage) throws IOException
 	{
 		System.out.println("addMsgSendPackage");
 		int size = dataPackage.getPackageSize();
@@ -80,8 +113,24 @@ public class HostJFrame extends JFrame{
 		{
 			addMsgSendItem(dataPackage.datas[i]);
 		}
-		hostMsgSendJPanel.updateUI();
+		hostMsgSendJPanel.repaint();
 	}
 	
+	private void addMsgRecvItem(Data data) throws IOException
+	{
+		int status = checkItemStatus(data, true);
+		hostMsgRecvJPanel.addItem(Global.getTime(), data.getSrcIPString(), data.getDstIPString(), 
+				     			  data.getSendOrder(), data.getMsgContent().getSrcPid(), data.getMsgContent().getMsg(), status);
+	}
+	
+	public void addMsgRecvPackage(DataPackage dataPackage) throws IOException 
+	{
+		int size = dataPackage.getPackageSize();
+		for (int i = 0; i < size; i++)
+		{
+			addMsgRecvItem(dataPackage.datas[i]);
+		}
+		hostMsgRecvJPanel.repaint();
+	}
 }
 

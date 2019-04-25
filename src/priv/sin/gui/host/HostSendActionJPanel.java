@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import priv.sin.entity.host.HostWriter;
 
 public class HostSendActionJPanel extends JPanel{
-	private JTextField dstIpJtf = new JTextField("127.0.0.1");
+	private JTextField dstIpJtf = new JTextField("202.119.64.0");
 	private JTextField msgJtf = new JTextField("161630230");
 	private JButton confirmJbt = new JButton("»∑»œ∑¢ÀÕ");
 	private String dstIpStr = null;

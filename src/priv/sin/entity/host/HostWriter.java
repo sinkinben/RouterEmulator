@@ -10,7 +10,7 @@ public class HostWriter implements Runnable{
 	private ObjectOutputStream outputStream;
 	private int socketPort;
 	private static int dataMsgOrder = 0;
-	private static final int sleepSecs = 10;
+	private static final int sleepSecs = 5;
 	private static boolean lock = true;
 	public HostWriter(ObjectOutputStream outputStream, int socketPort) {
 		this.outputStream = outputStream;

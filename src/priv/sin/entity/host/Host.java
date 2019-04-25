@@ -37,7 +37,7 @@ public class Host {
 		ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 		ObjectInputStream inputStream = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 		
-		socketPort = socket.getPort();
+		socketPort = socket.getLocalPort();
 		Host.printAttr();
 		
 		hostJFrame = new HostJFrame(pid, hostip & Global.ipMask, hostip);

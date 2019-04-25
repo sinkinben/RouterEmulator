@@ -17,4 +17,12 @@ public class DataPackage implements java.io.Serializable{
 	{
 		return PACKAGE_SIZE;
 	}
+	
+	public int getSrcIP()
+	{
+		return datas[0].getSrcIP();
+	}
+	public int getDstIP() {
+		return datas[0].getDstIP();
+	}
 }

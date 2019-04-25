@@ -9,7 +9,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import priv.sin.gui.host.GuiGlobal;
+import priv.sin.gui.global.GuiGlobal;
 
 public class RouterThreadsJPanel extends JPanel{
 	private static final int MAX_ITEMS = 20;

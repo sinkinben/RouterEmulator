@@ -6,7 +6,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.junit.Test;
+
 public class FileHelper {
+	private static final String ipBuffer = "IP-buffer.txt";
+	public static final String currentIP = "CurrentIP.txt";
 	public static void clearLog()
 	{
 		File dir = new File(Global.logPath);
@@ -20,11 +24,22 @@ public class FileHelper {
 			}
 		}
 	}
+	public static void clearCurrentIP() throws IOException
+	{
+		FileWriter fileWriter = new FileWriter(new File(currentIP),false);
+		fileWriter.flush();
+		fileWriter.close();
+	}
 	
 	public static void sendIP(int ip) throws IOException
 	{
-		FileWriter fileWriter = new FileWriter(new File("IP-buffer.txt"),false);
+		FileWriter fileWriter = new FileWriter(new File(ipBuffer),false);
 		fileWriter.write(Global.ipv4String(ip));
+		fileWriter.flush();
+		fileWriter.close();
+		
+		fileWriter = new FileWriter(new File(currentIP), true);
+		fileWriter.write(Global.ipv4String(ip)+"\n");
 		fileWriter.flush();
 		fileWriter.close();
 	}
@@ -36,9 +51,10 @@ public class FileHelper {
 		bufferedReader.close();
 		return Global.string2ipv4(ipStr);
 	}
-	
-	public static void init()
+	@Test
+	public void init() throws IOException
 	{
 		clearLog();
+		clearCurrentIP();
 	}
 }

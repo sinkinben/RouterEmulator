@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import priv.sin.entity.global.Global;
+import priv.sin.gui.global.GuiGlobal;
 
 /*
  * left is icon

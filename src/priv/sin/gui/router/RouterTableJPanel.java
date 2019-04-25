@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import priv.sin.entity.global.Global;
 import priv.sin.entity.router.RoutingTable;
-import priv.sin.gui.host.GuiGlobal;
+import priv.sin.gui.global.GuiGlobal;
 
 public class RouterTableJPanel extends JPanel {
 	private static final int MAX_ITEMS = 20;

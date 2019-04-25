@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import priv.sin.gui.host.GuiGlobal;
+import priv.sin.gui.global.GuiGlobal;
 
 public class RouterInfoJPanel extends JPanel{
 	private JPanel rightPanel;

@@ -52,19 +52,37 @@ public class RouterThread implements Runnable{
 		}
 	}
 	
-	private void send2host(int hostip, DataPackage dataPackage) throws IOException
+	private boolean directDeliery(DataPackage dataPackage) throws IOException
 	{
+		int dstip = dataPackage.getDstIP();
+		int srcip = dataPackage.getSrcIP();
 		for (RouterThread r: Router.routerThreads)
 		{
-			if (r.connectIP == hostip)
+			if (((r.connectIP & Global.ipMask) == (srcip & Global.ipMask)) && r.connectIP == dstip)
+			{
 				r.send(dataPackage);
+				return true;
+			}
+		}
+		return false;
+	}
+	private void indirectDeliery(DataPackage dataPackage) throws IOException
+	{
+		int dstip = dataPackage.getDstIP();
+		int srcip = dataPackage.getSrcIP();
+		for (RouterThread r: Router.routerThreads)
+		{
+			if ((r.connectIP & Global.ipMask) == (dstip & Global.ipMask))
+			{
+				r.send(dataPackage);
+			}
 		}
 	}
 	
 	private void dispatchMsg(DataPackage dataPackage) throws IOException
 	{
-		int dstip = dataPackage.datas[0].getDstIP();
-		send2host(dstip, dataPackage);
+		if (directDeliery(dataPackage) == false)
+			indirectDeliery(dataPackage);
 	}
 	
 	@Override

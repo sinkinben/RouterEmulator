@@ -11,9 +11,11 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import priv.sin.gui.global.GuiGlobal;
+
 public class HostTableJPanel extends JPanel{
 	private static final int MAX_ITEMS = 1024;
-	private String[] colStrings = {"时间", "源地址", "目的地址", "发送序号", "源进程PID", "内容"};
+	private String[] colStrings = {"时间", "源地址", "目的地址", "发送序号", "源进程PID", "内容", "状态"};
 	private String[][] rowDatas = new String[MAX_ITEMS][colStrings.length];
 	private int NR_ITEMS = 0;
 	private JTable table;
@@ -35,10 +37,10 @@ public class HostTableJPanel extends JPanel{
 		jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		add(jScrollPane);
-		setOneRowBackgroundColor(table, 0, Color.RED);
+		//setOneRowBackgroundColor(table, 0, Color.RED);
 	}
 	
-	public void addItem(String time, String srcIP, String dstIP, int sendOrder, int srcPID, String msg)
+	public void addItem(String time, String srcIP, String dstIP, int sendOrder, int srcPID, String msg, int status)
 	{
 		rowDatas[NR_ITEMS][0] = time;
 		rowDatas[NR_ITEMS][1] = srcIP;
@@ -46,11 +48,29 @@ public class HostTableJPanel extends JPanel{
 		rowDatas[NR_ITEMS][3] = sendOrder+"";
 		rowDatas[NR_ITEMS][4] = srcPID+"";
 		rowDatas[NR_ITEMS][5] = msg;
+		switch (status) {
+		case 0:
+			rowDatas[NR_ITEMS][6] = "FAILURE";
+			break;
+		case 1:
+			rowDatas[NR_ITEMS][6] = "DISCARD";
+			break;
+		case 2:
+			rowDatas[NR_ITEMS][6] = "SUCCESS";
+			break;
+		default:
+			break;
+		}
 		NR_ITEMS++;
-		table.updateUI();
-		jScrollPane.updateUI();
-		
 	}
+	
+	public void repaintTable()
+	{
+		jScrollPane.removeAll();
+		jScrollPane.add(table);
+		repaint();
+	}
+	
 	public static void setOneRowBackgroundColor(JTable table, int rowIndex, Color color) 
 	{		
 		try 
@@ -63,17 +83,7 @@ public class HostTableJPanel extends JPanel{
 					{						
 						setBackground(color);						
 						setForeground(Color.WHITE);					
-					}
-					else if(row > rowIndex)
-					{		
-						setBackground(Color.white);		
-						setForeground(Color.WHITE);			
-					}
-					else
-					{						
-						setBackground(Color.white);						
-						setForeground(Color.WHITE);					
-					} 					
+					}				
 					return super.getTableCellRendererComponent(table, value,isSelected, hasFocus, row, column);				
 				}			
 			};
