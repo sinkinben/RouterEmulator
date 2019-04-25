@@ -20,16 +20,17 @@ public class Router {
 	public static RoutingTable routingTable = new RoutingTable();
 	public static ArrayList<Integer> ipList = new ArrayList<>(); 
 	public static RouterMemory memory = new RouterMemory();
+	public static RouterJFrame routerJFrame;
 	public static void main(String[] args) throws IOException, InterruptedException
 	{
-		FileHelper.clearLog();
+		FileHelper.init();
 		System.out.println("Router pid: " + Router.pid);
 		
 		ServerSocket serverSocket = new ServerSocket();
 		InetSocketAddress address = new InetSocketAddress(Global.hostName, Global.port);
 		serverSocket.bind(address);
 		
-		RouterJFrame routerJFrame = new RouterJFrame(pid, Global.port, routingTable);
+		routerJFrame = new RouterJFrame(pid, Global.port, routingTable);
 		
 
 		while (true)

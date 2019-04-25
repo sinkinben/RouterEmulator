@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import priv.sin.entity.global.Global;
 import priv.sin.gui.global.GuiGlobal;
 
 public class RouterInfoJPanel extends JPanel{
@@ -27,7 +28,9 @@ public class RouterInfoJPanel extends JPanel{
 		rightPanel = new JPanel(new GridLayout(3,1));
 		label1 = new JLabel("    ¡¤Router PID: " + pid);
 		label2 = new JLabel("    ¡¤Router port: " + port);
+		label3 = new JLabel("    ¡¤Net Mask: " + Global.ipv4String(Global.ipMask));
 		rightPanel.add(label1);
 		rightPanel.add(label2);
+		rightPanel.add(label3);
 	}
 }

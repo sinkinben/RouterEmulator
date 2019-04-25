@@ -6,8 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.junit.Test;
-
 public class FileHelper {
 	private static final String ipBuffer = "IP-buffer.txt";
 	public static final String currentIP = "CurrentIP.txt";
@@ -51,8 +49,8 @@ public class FileHelper {
 		bufferedReader.close();
 		return Global.string2ipv4(ipStr);
 	}
-	@Test
-	public void init() throws IOException
+
+	public static void init() throws IOException
 	{
 		clearLog();
 		clearCurrentIP();

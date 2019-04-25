@@ -18,8 +18,10 @@ public class HostSendActionJPanel extends JPanel{
 	private JTextField dstIpJtf = new JTextField("202.119.64.0");
 	private JTextField msgJtf = new JTextField("161630230");
 	private JButton confirmJbt = new JButton("确认发送");
+	private JButton switchModel = new JButton("手动模式");
 	private String dstIpStr = null;
 	private String msgStr = null;
+	private boolean isAuto = false;
 	public HostSendActionJPanel()
 	{
 		initListener();
@@ -36,10 +38,14 @@ public class HostSendActionJPanel extends JPanel{
 		add(dstIpJtf);
 		add(label2);
 		add(msgJtf);
-		add(new JLabel(""));
-		JPanel jPanel = new JPanel(new FlowLayout());
-		jPanel.add(confirmJbt);
-		add(jPanel);
+		
+		JPanel p0 = new JPanel(new FlowLayout());
+		p0.add(switchModel);
+		add(p0);
+		
+		JPanel p1 = new JPanel(new FlowLayout());
+		p1.add(confirmJbt);
+		add(p1);
 	}
 	
 	private void initListener()
@@ -52,6 +58,16 @@ public class HostSendActionJPanel extends JPanel{
 				dstIpStr = dstIpJtf.getText();
 				msgStr = msgJtf.getText();
 				HostWriter.setLock(false);
+			}
+		});
+		switchModel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Switch Model");
+				isAuto = !isAuto;
+				String string = isAuto? "自动模式":"手动模式";
+				switchModel.setText(string);
+				HostWriter.switchAutoModel();
 			}
 		});
 	}

@@ -16,7 +16,6 @@ import priv.sin.gui.global.GuiGlobal;
  */
 public class HostInfoJPanel extends JPanel{
 	private JPanel rightJPanel;
-	
 	public HostInfoJPanel(int pid, int netid, int ip)
 	{
 		setBorder(BorderFactory.createTitledBorder("主机信息"));
@@ -28,7 +27,7 @@ public class HostInfoJPanel extends JPanel{
 	
 	private void initRightJPanel(int pid, int netid, int ip)
 	{
-		rightJPanel = new JPanel(new GridLayout(3, 1));
+		rightJPanel = new JPanel(new GridLayout(4, 1));
 		JLabel pidLabel = new JLabel("    ·Host pid: " + pid);
 		JLabel netLabel = new JLabel("    ·Host net-id: " + Global.ipv4String(netid));
 		JLabel ipLabel  = new JLabel("    ·Host ip: " + Global.ipv4String(ip));

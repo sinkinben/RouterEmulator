@@ -26,9 +26,9 @@ public class Global {
 	public static final int nuaaMinIpVal = Global.string2ipv4("202.119.79.255");
 	public static final int ipMask = 0xFFFFFF00;
 	public static int ipPoolIndex = 0;
-	public static final String[] ipPool = {"202.119.64.1", "202.119.64.2", 
-										   "202.119.65.1", "202.119.65.2",
-										   "202.119.66.1", "202.119.66.2",
+	public static final String[] ipPool = {"202.119.64.1", "202.119.64.5", 
+										   "202.119.65.3", "202.119.65.8",
+										   "202.119.66.4", "202.119.66.3",
 										   "202.119.67.1", "202.119.67.2"};
 	
 	public static String getTime()

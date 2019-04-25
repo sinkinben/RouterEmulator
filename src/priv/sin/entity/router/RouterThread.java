@@ -1,10 +1,12 @@
 package priv.sin.entity.router;
 
+import java.awt.Color;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 import priv.sin.entity.data.DataPackage;
 import priv.sin.entity.global.Global;
@@ -97,16 +99,27 @@ public class RouterThread implements Runnable{
 		}
 		while (true)
 		{
-			try
+			synchronized (this) 
 			{
-				DataPackage dataPackage =  (DataPackage)inputStream.readObject();
-				Global.printLog("Routerlog","RouterThread " + tid + " get msg: " + dataPackage.datas[0].toString());
-				dispatchMsg(dataPackage);
-				
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
+				try
+				{
+					DataPackage dataPackage =  (DataPackage)inputStream.readObject();
+					Global.printLog("Routerlog","RouterThread " + tid + " get msg: " + dataPackage.datas[0].toString());
+					if (directDeliery(dataPackage) == false)
+					{
+						Router.memory.copyDatas(dataPackage);
+						Router.routerJFrame.changeMemoryState(Color.RED);
+						TimeUnit.SECONDS.sleep(3);
+						indirectDeliery(dataPackage);
+						Router.routerJFrame.changeMemoryState(Color.YELLOW);
+					}
+					
+					
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}

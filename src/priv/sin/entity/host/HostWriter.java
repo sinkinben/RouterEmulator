@@ -1,17 +1,25 @@
 package priv.sin.entity.host;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import priv.sin.entity.data.DataPackage;
+import priv.sin.entity.global.FileHelper;
 import priv.sin.entity.global.Global;
 
 public class HostWriter implements Runnable{
 	private ObjectOutputStream outputStream;
 	private int socketPort;
 	private static int dataMsgOrder = 0;
-	private static final int sleepSecs = 5;
+	private static final int sleepAuto = 10;
+	private static final int sleepLock = 5;
 	private static boolean lock = true;
+	private static boolean autoModel = false;
+	
 	public HostWriter(ObjectOutputStream outputStream, int socketPort) {
 		this.outputStream = outputStream;
 		this.socketPort = socketPort;
@@ -20,7 +28,10 @@ public class HostWriter implements Runnable{
 	{
 		lock = b;
 	}
-	
+	public static void switchAutoModel()
+	{
+		autoModel = !autoModel;
+	}
 	@Override
 	public void run()
 	{
@@ -28,18 +39,32 @@ public class HostWriter implements Runnable{
 		{
 			try 
 			{
-				if (lock)
-					TimeUnit.SECONDS.sleep(sleepSecs);
-				else
+				if (autoModel == false)
 				{
-					String dstIpStr = Host.hostJFrame.getActionIp();
-					String msg = Host.hostJFrame.getActionMsg();
+					if (lock)
+						TimeUnit.SECONDS.sleep(sleepLock);
+					else
+					{
+						String dstIpStr = Host.hostJFrame.getActionIp();
+						String msg = Host.hostJFrame.getActionMsg();
+						DataPackage dataPackage = new DataPackage(Host.hostip, Global.string2ipv4(dstIpStr), dataMsgOrder, Host.pid, Host.socketPort, msg);
+						dataMsgOrder+=10;
+						outputStream.writeObject(dataPackage);
+						outputStream.flush();
+						Host.hostJFrame.addMsgSendPackage(dataPackage);
+						setLock(true);
+					}
+				}
+				else 
+				{
+					String dstIpStr = getDstIpString();
+					String msg = "161630230";
 					DataPackage dataPackage = new DataPackage(Host.hostip, Global.string2ipv4(dstIpStr), dataMsgOrder, Host.pid, Host.socketPort, msg);
 					dataMsgOrder+=10;
 					outputStream.writeObject(dataPackage);
 					outputStream.flush();
 					Host.hostJFrame.addMsgSendPackage(dataPackage);
-					setLock(true);
+					TimeUnit.SECONDS.sleep(sleepAuto);
 				}
 			} 
 			catch (Exception e) 
@@ -74,12 +99,17 @@ public class HostWriter implements Runnable{
 //		}
 //	}
 	
-	public int getDstIp()
+	public String getDstIpString() throws IOException
 	{
-		int index = Global.getRandom(0, Global.ipPool.length-1);
-		while (Global.ipPool[index].equals(Host.ipString))
-			index = Global.getRandom(0,  Global.ipPool.length - 1);
-		return Global.string2ipv4(Global.ipPool[index]);
-		
+		ArrayList<String> ipList = new ArrayList<>();
+		BufferedReader reader = new BufferedReader(new FileReader(FileHelper.currentIP));
+		String string;
+		while ((string = reader.readLine())!=null)
+		{
+			ipList.add(string);
+		}
+		reader.close();
+		int index = Global.getRandom(0, ipList.size()-2);
+		return ipList.get(index);
 	}
 }

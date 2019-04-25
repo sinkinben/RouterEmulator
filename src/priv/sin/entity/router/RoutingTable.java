@@ -40,14 +40,26 @@ public class RoutingTable {
 	public int[] getNextAddrs() {
 		return nextAddrs;
 	}
-	
+
+	private boolean isFound(int netid)
+	{
+		for (int i = 0; i < NR_TABLE; i++)
+		{
+			if (netids[i] == netid)
+				return true;
+		}
+		return false;
+	}
 	private void initRoutingTable()
 	{
 		int ipVal;
+		int netVal;
 		for (int i = 0; i < Global.ipPool.length; i++)
 		{
 			ipVal = Global.string2ipv4(Global.ipPool[i]);
-			addItem(ipVal, ipVal & Global.ipMask);
+			netVal = ipVal & Global.ipMask;
+			if (isFound(netVal) == false)
+				addItem(netVal, netVal);
 		}
 	}
 }

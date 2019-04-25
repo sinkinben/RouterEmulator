@@ -1,11 +1,13 @@
 package priv.sin.gui.router;
 
+import java.awt.Color;
 import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 
 import priv.sin.entity.global.Global;
+import priv.sin.entity.router.RouterMemory;
 import priv.sin.entity.router.RoutingTable;
 
 public class RouterJFrame extends JFrame{
@@ -32,7 +34,7 @@ public class RouterJFrame extends JFrame{
 		
 		setTitle("Router " + routerPID);
 		setVisible(true);
-		setSize(600, 600);
+		setSize(600, 1000);
 		
 		initRouterTable(routingTable);
 		
@@ -64,6 +66,16 @@ public class RouterJFrame extends JFrame{
 	{
 		routerTableJPanel.initTable(routingTable);
 	}
+	
+	public void changeMemoryState(Color color)
+	{
+		int in = RouterMemory.getIn();
+		int out = RouterMemory.getOut();
+		routerMemoryJPanel.setColor(in, out, color);
+		
+	}
+	
+	
 	
 
 	

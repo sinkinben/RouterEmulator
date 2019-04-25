@@ -132,5 +132,6 @@ public class HostJFrame extends JFrame{
 		}
 		hostMsgRecvJPanel.repaint();
 	}
+
 }
 

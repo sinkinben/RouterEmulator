@@ -4,9 +4,10 @@ import priv.sin.entity.data.Data;
 import priv.sin.entity.data.DataPackage;
 
 public class RouterMemory {
-	private int in = 0;
-	private int out = 0;
-	private static final int MEMORY_SIZE = 100;
+	private static int in = 0;
+	private static int out = 0;
+
+	public static final int MEMORY_SIZE = 32*32;
 	private Data[] memory = new Data[MEMORY_SIZE];
 	
 	public void copyDatas(DataPackage dataPackage)
@@ -18,8 +19,37 @@ public class RouterMemory {
 		}
 	}
 	
-	private boolean isFull()
+	public boolean isFull()
 	{
-		return (in + 1) % MEMORY_SIZE == out ? true : false;
+		return (in + 1) % MEMORY_SIZE == out;
 	}
+	
+	public boolean isEmpty()
+	{
+		return (in == out);
+	}
+	
+	public Data getData()
+	{
+		Data data = memory[out];
+		out = (out + 1) % MEMORY_SIZE;
+		return data;
+	}
+	
+	public static int getIn() {
+		return in;
+	}
+
+	public static int getOut() {
+		return out;
+	}
+
+	public static int getMemorySize() {
+		return MEMORY_SIZE;
+	}
+
+	public Data[] getMemory() {
+		return memory;
+	}
+	
 }
