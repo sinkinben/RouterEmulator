@@ -1,14 +1,10 @@
 package priv.sin.entity.host;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import priv.sin.entity.data.DataPackage;
-import priv.sin.entity.global.FileHelper;
 import priv.sin.entity.global.Global;
 
 public class HostWriter implements Runnable{
@@ -101,15 +97,15 @@ public class HostWriter implements Runnable{
 	
 	public String getDstIpString() throws IOException
 	{
-		ArrayList<String> ipList = new ArrayList<>();
-		BufferedReader reader = new BufferedReader(new FileReader(FileHelper.currentIP));
-		String string;
-		while ((string = reader.readLine())!=null)
-		{
-			ipList.add(string);
-		}
-		reader.close();
-		int index = Global.getRandom(0, ipList.size()-2);
-		return ipList.get(index);
+//		ArrayList<String> ipList = new ArrayList<>();
+//		BufferedReader reader = new BufferedReader(new FileReader(FileHelper.currentIP));
+//		String string;
+//		while ((string = reader.readLine())!=null)
+//		{
+//			ipList.add(string);
+//		}
+//		reader.close();
+		int index = Global.getRandom(0, Global.ipPool.length-1);
+		return Global.ipPool[index];
 	}
 }

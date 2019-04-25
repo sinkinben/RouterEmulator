@@ -53,9 +53,6 @@ public class HostTableJPanel extends JPanel{
 			rowDatas[NR_ITEMS][6] = "FAILURE";
 			break;
 		case 1:
-			rowDatas[NR_ITEMS][6] = "DISCARD";
-			break;
-		case 2:
 			rowDatas[NR_ITEMS][6] = "SUCCESS";
 			break;
 		default:

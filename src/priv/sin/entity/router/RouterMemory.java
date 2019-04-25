@@ -18,6 +18,10 @@ public class RouterMemory {
 			in = (in + 1) % MEMORY_SIZE;
 		}
 	}
+	public void getDatas(int size)
+	{
+		out = (out + size) % MEMORY_SIZE;
+	}
 	
 	public boolean isFull()
 	{

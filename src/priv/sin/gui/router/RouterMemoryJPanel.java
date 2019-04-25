@@ -41,6 +41,7 @@ public class RouterMemoryJPanel extends JPanel{
 		{
 			r = (i/rows);
 			c = (i%rows);
+			System.out.println(r+" "+c);
 			buttons[r][c].setBackground(color);
 		}
 	}

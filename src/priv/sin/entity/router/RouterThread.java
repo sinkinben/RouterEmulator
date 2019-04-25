@@ -57,10 +57,11 @@ public class RouterThread implements Runnable{
 	private boolean directDeliery(DataPackage dataPackage) throws IOException
 	{
 		int dstip = dataPackage.getDstIP();
-		int srcip = dataPackage.getSrcIP();
+		//int srcip = dataPackage.getSrcIP();
 		for (RouterThread r: Router.routerThreads)
 		{
-			if (((r.connectIP & Global.ipMask) == (srcip & Global.ipMask)) && r.connectIP == dstip)
+			//if (((r.connectIP & Global.ipMask) == (srcip & Global.ipMask)) && r.connectIP == dstip)
+			if (r.connectIP == dstip)
 			{
 				r.send(dataPackage);
 				return true;
@@ -81,10 +82,16 @@ public class RouterThread implements Runnable{
 		}
 	}
 	
-	private void dispatchMsg(DataPackage dataPackage) throws IOException
+	private boolean isDirect(DataPackage dataPackage)
 	{
-		if (directDeliery(dataPackage) == false)
-			indirectDeliery(dataPackage);
+		int dstip = dataPackage.getDstIP();
+		int srcip = dataPackage.getSrcIP();
+		for (RouterThread r: Router.routerThreads)
+		{
+			if((r.connectIP&Global.ipMask)==(srcip&Global.ipMask) && r.connectIP == dstip)
+				return true;
+		}
+		return false;
 	}
 	
 	@Override
@@ -105,13 +112,19 @@ public class RouterThread implements Runnable{
 				{
 					DataPackage dataPackage =  (DataPackage)inputStream.readObject();
 					Global.printLog("Routerlog","RouterThread " + tid + " get msg: " + dataPackage.datas[0].toString());
-					if (directDeliery(dataPackage) == false)
+
+					if (isDirect(dataPackage) == false)
 					{
 						Router.memory.copyDatas(dataPackage);
 						Router.routerJFrame.changeMemoryState(Color.RED);
 						TimeUnit.SECONDS.sleep(3);
-						indirectDeliery(dataPackage);
+						directDeliery(dataPackage);
 						Router.routerJFrame.changeMemoryState(Color.YELLOW);
+						Router.memory.getDatas(dataPackage.getPackageSize());
+					}
+					else
+					{
+						directDeliery(dataPackage);
 					}
 					
 					

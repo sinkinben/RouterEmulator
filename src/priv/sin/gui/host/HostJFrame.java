@@ -69,7 +69,7 @@ public class HostJFrame extends JFrame{
 	{
 		return hostSendActionJPanel.getMsgStr();
 	}
-	private int checkItemStatus(Data data, boolean isRecvPanel) throws IOException
+	private int checkItemStatus(Data data) throws IOException
 	{
 		int status = 0;
 		int dstVal = data.getDstIP();
@@ -81,16 +81,7 @@ public class HostJFrame extends JFrame{
 		{
 			if (ipString.equals(dstString))
 			{
-				if (isRecvPanel)
-				{
-					status = 1;
-					if (hostip == dstVal)
-						status = 2;
-				}
-				else
-				{
-					status = 2;
-				}
+				status = 1;
 				break;
 			}
 		}
@@ -100,7 +91,7 @@ public class HostJFrame extends JFrame{
 
 	private void addMsgSendItem(Data data) throws IOException
 	{
-		int status = checkItemStatus(data, false);
+		int status = checkItemStatus(data);
 		hostMsgSendJPanel.addItem(Global.getTime(), data.getSrcIPString(), data.getDstIPString(), 
 				                  data.getSendOrder(), hostPid, data.getMsgContent().getMsg(), status);
 	}
@@ -118,7 +109,7 @@ public class HostJFrame extends JFrame{
 	
 	private void addMsgRecvItem(Data data) throws IOException
 	{
-		int status = checkItemStatus(data, true);
+		int status = checkItemStatus(data);
 		hostMsgRecvJPanel.addItem(Global.getTime(), data.getSrcIPString(), data.getDstIPString(), 
 				     			  data.getSendOrder(), data.getMsgContent().getSrcPid(), data.getMsgContent().getMsg(), status);
 	}
