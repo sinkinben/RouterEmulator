@@ -4,6 +4,7 @@ import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
@@ -77,15 +78,21 @@ public class HostJFrame extends JFrame{
 		
 		BufferedReader reader = new BufferedReader(new FileReader(FileHelper.currentIP));
 		String ipString;
+		ArrayList<String> list = new ArrayList<>();
 		while ((ipString = reader.readLine()) != null)
 		{
-			if (ipString.equals(dstString))
+			list.add(ipString);
+		}
+		reader.close();
+		int size = list.size();
+		for (int i = 0; i < size - 1; i++)
+		{
+			if (list.get(i).equals(dstString))
 			{
 				status = 1;
 				break;
 			}
 		}
-		reader.close();
 		return status;
 	}
 

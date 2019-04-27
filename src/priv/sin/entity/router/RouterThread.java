@@ -88,7 +88,7 @@ public class RouterThread implements Runnable{
 		int srcip = dataPackage.getSrcIP();
 		for (RouterThread r: Router.routerThreads)
 		{
-			if((r.connectIP&Global.ipMask)==(srcip&Global.ipMask) && r.connectIP == dstip)
+			if((r.connectIP & Global.ipMask) == ( srcip & Global.ipMask) && r.connectIP == dstip)
 				return true;
 		}
 		return false;

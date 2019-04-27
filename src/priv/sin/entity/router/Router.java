@@ -37,7 +37,7 @@ public class Router {
 		{
 			int ip = Global.allocateIP();
 			FileHelper.sendIP(ip);
-			
+			System.out.println("Set up ok!");
 			Socket socket = serverSocket.accept();
 			RouterThread routerThread = new RouterThread(tid++, ip, socket);
 			routerThreads.add(routerThread);
