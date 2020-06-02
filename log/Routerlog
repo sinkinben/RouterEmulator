@@ -1,1 +1,4 @@
-[2019-05-02 16:48:22 Client port = 58871 is connected.]
+[2020-06-02 14:36:38 Client port = 53918 is connected.]
+[2020-06-02 14:36:48 RouterThread 0 get msg: src=202.119.64.1, dst=202.119.64.0, order=0, srcpid=1768, srcport=53918, msg=161630230]
+[2020-06-02 14:37:09 Client port = 53926 is connected.]
+[2020-06-02 14:37:23 RouterThread 0 get msg: src=202.119.64.1, dst=202.119.64.5, order=10, srcpid=1768, srcport=53918, msg=161630230]
